@@ -39,6 +39,20 @@
             p.posicao = pos;
         }
 
+        public Peca retirarPeca(Posicao pos)
+        {
+            if(peca(pos) == null)
+            {
+                return null;
+            }
+            Peca aux = peca(pos);
+            //Marca a posição dela como nula
+            aux.posicao = null;
+            //Marca a posição do tabuleiro onde a peça tava como nula
+            pecas[pos.linha, pos.coluna] = null;
+            return aux;
+        }
+
         public bool posicaoValida(Posicao pos)
         {
             if(pos.linha < 0 || pos.linha >= linhas || pos.coluna < 0 || pos.coluna >= colunas)
