@@ -21,5 +21,28 @@
         }
 
         public abstract bool[,] movimentosPossiveis();
+
+        public bool existeMovimentosPossiveis()
+        {
+            bool[,] mat = movimentosPossiveis();
+            for(int i = 0; i < tab.linhas; i++)
+            {
+                for(int j = 0; j < tab.colunas; j++)
+                {
+                    //Se a posição for verdadeira, existe pelo menos esse movimento possível para a peça
+                    if(mat[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        //Verifica se a posição informada é possível (retorna um true/false da matriz boolean)
+        public bool podeMoverPara(Posicao pos)
+        {
+            return movimentosPossiveis()[pos.linha, pos.coluna];
+        }
     }
 }
