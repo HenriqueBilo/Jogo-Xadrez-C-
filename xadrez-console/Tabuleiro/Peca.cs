@@ -45,7 +45,7 @@
         }
 
         //Verifica se a posição informada é possível (retorna um true/false da matriz boolean)
-        public bool podeMoverPara(Posicao pos)
+        public bool movimentoPossivel(Posicao pos)
         {
             return movimentosPossiveis()[pos.linha, pos.coluna];
         }
