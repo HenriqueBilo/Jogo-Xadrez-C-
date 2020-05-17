@@ -29,7 +29,7 @@ namespace xadrez_console
                         bool[,] posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
 
                         Console.Clear();
-                        Tela.imprimirPartida(partida);
+                        Tela.imprimirPartida(partida, posicoesPossiveis);
 
                         Console.WriteLine();
                         Console.Write("Destino: ");

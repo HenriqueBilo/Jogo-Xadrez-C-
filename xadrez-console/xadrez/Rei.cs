@@ -5,9 +5,11 @@ namespace xadrez
 {
     class Rei: Peca
     {
-        public Rei(Tabuleiro tab, Cor cor) : base(tab, cor)
-        {
+        private PartidaDeXadrez partida;
 
+        public Rei(Tabuleiro tab, Cor cor, PartidaDeXadrez partida) : base(tab, cor)
+        {
+            this.partida = partida;
         }
 
         public override string ToString()
@@ -78,7 +80,47 @@ namespace xadrez
                 mat[pos.linha, pos.coluna] = true;
             }
 
+            //Jogada Especial = Roque
+            if(qteMovimentos == 0 && !partida.xeque)
+            {
+                //Roque pequeno = A torre está 3 colunas de diferença do rei
+                Posicao posT1 = new Posicao(posicao.linha, posicao.coluna + 3);
+                if(testeTorreParaRoque(posT1))
+                {
+                    //Verifica se as 2 colunas entre o rei e a Torre estão livres
+                    Posicao p1 = new Posicao(posicao.linha, posicao.coluna + 1);
+                    Posicao p2 = new Posicao(posicao.linha, posicao.coluna + 2);
+                    if(tab.peca(p1) == null && tab.peca(p2) == null) 
+                    {
+                        //Disponibiliza o movimento
+                        mat[posicao.linha, posicao.coluna + 2] = true;
+                    }
+                }
+
+                //Roque Grande = A torre está 4 colunas de diferença do rei
+                Posicao posT2 = new Posicao(posicao.linha, posicao.coluna - 4);
+                if (testeTorreParaRoque(posT2))
+                {
+                    //Verifica se as 2 colunas entre o rei e a Torre estão livres
+                    Posicao p1 = new Posicao(posicao.linha, posicao.coluna - 1);
+                    Posicao p2 = new Posicao(posicao.linha, posicao.coluna - 2);
+                    Posicao p3 = new Posicao(posicao.linha, posicao.coluna - 3);
+                    if (tab.peca(p1) == null && tab.peca(p2) == null && tab.peca(p3) == null)
+                    {
+                        //Disponibiliza o movimento
+                        mat[posicao.linha, posicao.coluna - 2] = true;
+                    }
+                }
+            }
+
             return mat;
+        }
+
+        //Testa se a torre está disponível para realizar a jogada Roque
+        private bool testeTorreParaRoque(Posicao pos)
+        {
+            Peca p = tab.peca(pos);
+            return p != null && p is Torre && p.cor == cor && p.qteMovimentos == 0;
         }
 
         //Verifica se o rei pode se mover para dada posição
